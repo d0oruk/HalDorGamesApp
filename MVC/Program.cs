@@ -10,6 +10,10 @@ string connectionString = "server=(localdb)\\mssqllocaldb;database=HaldorGamesAp
 //IoC Container:
 builder.Services.AddDbContext<Db>(options => options.UseSqlServer(connectionString));
 builder.Services.AddScoped<IPublisherService, PublisherService>();
+builder.Services.AddScoped<IGameService, GameService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IRoleService, RoleService>();
+
 
 var app = builder.Build();
 

@@ -39,7 +39,7 @@ namespace BLL.Services
             if (_db.Publishers.Any(p => p.Name.ToUpper() == record.Name.ToUpper().Trim()))
             //Recorddaki Name'lerin Herhangi Biri, Recorddaki Name ile Aynı ise
             {
-                Error("Publisher with the same name exists!");
+                return Error("Publisher with the same name exists!");
             }
             record.Name = record.Name.Trim(); //record'daki Boşlukları Siler
             _db.Publishers.Add(record);
@@ -76,7 +76,7 @@ namespace BLL.Services
             //SingleOrDefault methodunu kullanarak Veritabanından; Record Id'si ile Aynı Olan Entity'e Eriştik.
             if (entity == null)
             {
-                Error("Publisher couldn't be found!");
+                return Error("Publisher couldn't be found!");
             }
             if (entity.Games.Count() > 0) // if(entity.Games.Any())    de Alternatif olarak kullanılabilir.
             //Veritabanında, Publisher Tablosunda Olup, İçerisinde Oyun Olan Publisher Var ise
