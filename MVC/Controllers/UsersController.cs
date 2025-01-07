@@ -15,14 +15,14 @@ namespace MVC.Controllers
     {
         // Service injections:
         private readonly IUserService _userService;
-        private readonly IUserService _roleService;
+        private readonly IRoleService _roleService;//BUNLARI DÜZELT!
 
         /* Can be uncommented and used for many to many relationships. {Entity} may be replaced with the related entiy name in the controller and views. */
         //private readonly IService<{Entity}, {Entity}Model> _{Entity}Service;
 
         public UsersController(
 			IUserService userService
-            , IUserService roleService
+            , IRoleService roleService
 
             /* Can be uncommented and used for many to many relationships. {Entity} may be replaced with the related entiy name in the controller and views. */
             //, Service<{Entity}, {Entity}Model> {Entity}Service
@@ -72,7 +72,7 @@ namespace MVC.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Create(UserModel user)
         {
-            if (ModelState.IsValid)
+                if (ModelState.IsValid)
             {
                 // Insert item service logic:
                 var result = _userService.Create(user.Record);

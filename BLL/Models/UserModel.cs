@@ -9,10 +9,10 @@ namespace BLL.Models
 {
     public class UserModel
     {
-        public User Record;
+        public User Record { get; set; }
         public string UserName => Record.UserName;
         public string Password => Record.Password;
         public string IsActive => Record.IsActive ? "Yes" : "No";
-        public string Role => Record.Role.Name;
+        public string Role => Record.Role?.Name;
     }
 }
