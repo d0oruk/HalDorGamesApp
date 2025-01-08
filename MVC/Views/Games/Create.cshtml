@@ -61,7 +61,15 @@
         <div class="row mb-3">
             <label asp-for="Genres" class="col-2 col-form-label fw-bold"></label>
             <div class="col-10">
-                <select multiple asp-for="GenreIds" class="form-select" asp-items="ViewBag.GenreIds"></select>
+                @foreach (var genre in ViewBag.GenreIds)
+                {
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="GenreIds" value="@genre.Value" id="genre@(genre.Value)" />
+                        <label class="form-check-label" for="genre@(genre.Value)">
+                            @genre.Text
+                        </label>
+                    </div>
+                }
                 <span asp-validation-for="GenreIds" class="text-danger"></span>
             </div>
         </div>

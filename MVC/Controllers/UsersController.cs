@@ -6,6 +6,10 @@ using BLL.Services.Bases;
 using BLL.Models;
 using BLL.DAL;
 using BLL.Services;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 // Generated from Custom Template.
 
@@ -61,6 +65,7 @@ namespace MVC.Controllers
         }
 
         // GET: Users/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             SetViewData();
@@ -70,9 +75,10 @@ namespace MVC.Controllers
         // POST: Users/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create(UserModel user)
         {
-                if (ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 // Insert item service logic:
                 var result = _userService.Create(user.Record);
@@ -88,6 +94,7 @@ namespace MVC.Controllers
         }
 
         // GET: Users/Edit/5
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int id)
         {
             // Get item to edit service logic:
@@ -99,6 +106,7 @@ namespace MVC.Controllers
         // POST: Users/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(UserModel user)
         {
             if (ModelState.IsValid)
@@ -117,6 +125,7 @@ namespace MVC.Controllers
         }
 
         // GET: Users/Delete/5
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
             // Get item to delete service logic:
@@ -127,12 +136,56 @@ namespace MVC.Controllers
         // POST: Users/Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteConfirmed(int id)
         {
             // Delete item service logic:
             var result = _userService.Delete(id);
             TempData["Message"] = result.Message;
             return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(UserModel user)
+        {
+            if (ModelState.IsValid)
+            {
+                var existingUser = _userService.Query()
+                    .SingleOrDefault(u => 
+                        u.Record.UserName == user.Record.UserName && 
+                        u.Record.Password == user.Record.Password && 
+                        u.Record.IsActive);
+                        
+                if (existingUser != null)
+                {
+                    var claims = new List<Claim>
+                    {
+                        new Claim(ClaimTypes.Name, existingUser.UserName),
+                        new Claim(ClaimTypes.Role, existingUser.Role)
+                    };
+                    
+                    var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                    var principal = new ClaimsPrincipal(identity);
+                    
+                    await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+                    return RedirectToAction("Index", "Home");
+                }
+                
+                TempData["Message"] = "Invalid username or password";
+            }
+            return View(user);
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Home");
         }
 	}
 }

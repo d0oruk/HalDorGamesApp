@@ -6,6 +6,7 @@ using BLL.Services.Bases;
 using BLL.Models;
 using BLL.DAL;
 using BLL.Services;
+using Microsoft.AspNetCore.Authorization;
 
 // Generated from Custom Template.
 
@@ -67,6 +68,7 @@ namespace MVC.Controllers
         }
 
         // GET: Games/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             SetViewData();
@@ -76,6 +78,7 @@ namespace MVC.Controllers
         // POST: Games/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create(GameModel game)
         {
             if (ModelState.IsValid)
@@ -106,6 +109,7 @@ namespace MVC.Controllers
         }
 
         // GET: Games/Edit/5
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int id)
         {
             // Get item to edit service logic:
@@ -117,6 +121,7 @@ namespace MVC.Controllers
         // POST: Games/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(GameModel game)
         {
             if (ModelState.IsValid)
@@ -135,6 +140,7 @@ namespace MVC.Controllers
         }
 
         // GET: Games/Delete/5
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
             // Get item to delete service logic:
@@ -145,6 +151,7 @@ namespace MVC.Controllers
         // POST: Games/Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteConfirmed(int id)
         {
             // Delete item service logic:

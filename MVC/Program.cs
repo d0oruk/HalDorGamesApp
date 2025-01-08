@@ -1,6 +1,7 @@
 using BLL.DAL;
 using BLL.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,7 +15,13 @@ builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IGenreService, GenreService>();
-
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Users/Login";
+        options.AccessDeniedPath = "/Users/Login";
+        options.ExpireTimeSpan = TimeSpan.FromHours(1);
+    });
 
 var app = builder.Build();
 
@@ -30,6 +37,8 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 

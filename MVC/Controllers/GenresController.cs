@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using BLL.Controllers.Bases;
 using BLL.Services.Bases;
 using BLL.Services;
@@ -33,6 +34,7 @@ namespace MVC.Controllers
         }
 
         // GET: Genres/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             return View();
@@ -41,6 +43,7 @@ namespace MVC.Controllers
         // POST: Genres/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create(GenreModel genre)
         {
             if (ModelState.IsValid)
@@ -57,6 +60,7 @@ namespace MVC.Controllers
         }
 
         // GET: Genres/Edit/5
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int id)
         {
             var item = _genreService.Query().SingleOrDefault(g => g.Record.Id == id);
@@ -68,6 +72,7 @@ namespace MVC.Controllers
         // POST: Genres/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(GenreModel genre)
         {
             if (ModelState.IsValid)
@@ -84,6 +89,7 @@ namespace MVC.Controllers
         }
 
         // GET: Genres/Delete/5
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
             var item = _genreService.Query().SingleOrDefault(g => g.Record.Id == id);
@@ -95,6 +101,7 @@ namespace MVC.Controllers
         // POST: Genres/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteConfirmed(int id)
         {
             var result = _genreService.Delete(id);
@@ -102,4 +109,4 @@ namespace MVC.Controllers
             return RedirectToAction(nameof(Index));
         }
     }
-} 
+}

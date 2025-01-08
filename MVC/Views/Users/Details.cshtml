@@ -70,8 +70,13 @@
     *@
 
     <hr /> 
-    <a asp-action="Edit" asp-route-id="@Model.Record.Id">Edit</a>&nbsp;|&nbsp;
-    <a asp-action="Delete" asp-route-id="@Model.Record.Id">Delete</a>&nbsp;|&nbsp;
     <a asp-action="Index">Back to List</a>
+    @if (User.IsInRole("Admin"))
+    {
+        <span>&nbsp;|&nbsp;</span>
+        <a asp-action="Edit" asp-route-id="@Model.Record.Id">Edit</a>
+        <span>&nbsp;|&nbsp;</span>
+        <a asp-action="Delete" asp-route-id="@Model.Record.Id">Delete</a>
+    }
 </div>
 }

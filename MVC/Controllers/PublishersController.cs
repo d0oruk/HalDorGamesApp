@@ -5,6 +5,7 @@ using BLL.Services.Bases;
 using BLL.Models;
 using BLL.DAL;
 using BLL.Services;
+using Microsoft.AspNetCore.Authorization;
 
 // Generated from Custom Template.
 
@@ -56,6 +57,7 @@ namespace MVC.Controllers
         }
 
         // GET: Publishers/Create
+        [Authorize(Roles = "Admin")]
         public IActionResult Create()
         {
             SetViewData();
@@ -65,6 +67,7 @@ namespace MVC.Controllers
         // POST: Publishers/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Create(PublisherModel publisher)
         {
             if (ModelState.IsValid)
@@ -83,6 +86,7 @@ namespace MVC.Controllers
         }
 
         // GET: Publishers/Edit/5
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int id)
         {
             // Get item to edit service logic:
@@ -94,6 +98,7 @@ namespace MVC.Controllers
         // POST: Publishers/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(PublisherModel publisher)
         {
             if (ModelState.IsValid)
@@ -112,6 +117,7 @@ namespace MVC.Controllers
         }
 
         // GET: Publishers/Delete/5
+        [Authorize(Roles = "Admin")]
         public IActionResult Delete(int id)
         {
             // Get item to delete service logic:
@@ -122,6 +128,7 @@ namespace MVC.Controllers
         // POST: Publishers/Delete
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public IActionResult DeleteConfirmed(int id)
         {
             // Delete item service logic:
