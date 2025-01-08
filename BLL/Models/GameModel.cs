@@ -12,6 +12,7 @@ namespace BLL.Models
     public class GameModel
     {
         public Game Record { get; set; }
+        public List<int> GenreIds { get; set; } = new List<int>();
         public string Name => Record.Name;
         [DisplayName("Release Date")]
         public string ReleaseDate => !Record.ReleaseDate.HasValue ? string.Empty : Record.ReleaseDate.Value.ToString("MM/dd/yyyy");

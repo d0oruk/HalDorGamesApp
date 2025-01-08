@@ -15,18 +15,24 @@ namespace MVC.Controllers
     {
         // Service injections:
         private readonly IGameService _gameService;
+        private readonly IPublisherService _publisherService;
+        private readonly IGenreService _genreService;
 
         /* Can be uncommented and used for many to many relationships. {Entity} may be replaced with the related entiy name in the controller and views. */
         //private readonly IService<{Entity}, {Entity}Model> _{Entity}Service;
 
         public GamesController(
-			IGameService gameService
+			IGameService gameService,
+            IPublisherService publisherService,
+            IGenreService genreService
 
             /* Can be uncommented and used for many to many relationships. {Entity} may be replaced with the related entiy name in the controller and views. */
             //, Service<{Entity}, {Entity}Model> {Entity}Service
         )
         {
             _gameService = gameService;
+            _publisherService = publisherService;
+            _genreService = genreService;
 
             /* Can be uncommented and used for many to many relationships. {Entity} may be replaced with the related entiy name in the controller and views. */
             //_{Entity}Service = {Entity}Service;
@@ -50,10 +56,14 @@ namespace MVC.Controllers
 
         protected void SetViewData()
         {
-            // Related items service logic to set ViewData (Record.Id and Name parameters may need to be changed in the SelectList constructor according to the model):
-            
             /* Can be uncommented and used for many to many relationships. {Entity} may be replaced with the related entiy name in the controller and views. */
             //ViewBag.{Entity}Ids = new MultiSelectList(_{Entity}Service.Query().ToList(), "Record.Id", "Name");
+            
+            // Add Publishers dropdown
+            ViewBag.PublisherId = new SelectList(_publisherService.Query().ToList(), "Record.Id", "Name");
+            
+            // Add Genres multi-select
+            ViewBag.GenreIds = new MultiSelectList(_genreService.Query().ToList(), "Record.Id", "Name");
         }
 
         // GET: Games/Create
@@ -70,6 +80,18 @@ namespace MVC.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (game.Record.GameGenres == null)
+                    game.Record.GameGenres = new List<GameGenre>();
+
+                // Handle genres
+                if (game.GenreIds != null && game.GenreIds.Any())
+                {
+                    foreach (var genreId in game.GenreIds)
+                    {
+                        game.Record.GameGenres.Add(new GameGenre { GenreId = genreId });
+                    }
+                }
+
                 // Insert item service logic:
                 var result = _gameService.Create(game.Record);
                 if (result.IsSuccessful)

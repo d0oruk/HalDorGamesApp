@@ -48,18 +48,22 @@
             @Html.DisplayFor(model => model.Price)
         </div>
     </div>
-
-@* Can be uncommented and used for many to many relationships. {Entity} may be replaced with the related entiy name in the controller and views. *@
-    @*
     <div class="row mb-3">
         <div class="col-2 fw-bold">
-            <b>@Html.DisplayNameFor(model => model.{Entity}s)</b>
+            @Html.DisplayNameFor(model => model.Publisher)
         </div>
         <div class="col-10">
-            @Html.Raw(Model.{Entity}s)
+            @Html.DisplayFor(model => model.Publisher)
         </div>
     </div>
-    *@
+    <div class="row mb-3">
+        <div class="col-2 fw-bold">
+            @Html.DisplayNameFor(model => model.Genres)
+        </div>
+        <div class="col-10">
+            @Html.DisplayFor(model => model.Genres)
+        </div>
+    </div>
 
     <hr /> 
     <a asp-action="Edit" asp-route-id="@Model.Record.Id">Edit</a>&nbsp;|&nbsp;

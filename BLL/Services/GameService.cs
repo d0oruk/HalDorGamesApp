@@ -56,8 +56,12 @@ namespace BLL.Services
 
         public IQueryable<GameModel> Query()
         {
-            return _db.Games.OrderBy(p => p.Name).Select(p => new GameModel() { Record = p });
-            //Öncelikle Games Db Set'e Erişiyor, Sonra İsme Göre Sıralıyor, Sonra ise Sonuçları Teker Teker Record'a Atıyor.
+            return _db.Games
+                .Include(g => g.Publisher)
+                .Include(g => g.GameGenres)
+                    .ThenInclude(gg => gg.Genre)
+                .OrderBy(p => p.Name)
+                .Select(p => new GameModel() { Record = p });
         }
 
         public ServiceBase Update(Game record)
