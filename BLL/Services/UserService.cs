@@ -65,20 +65,23 @@ namespace BLL.Services
         public ServiceBase Update(User record)
         {
             if (_db.Users.Any(p => p.Id != record.Id && p.UserName.ToUpper() == record.UserName.ToUpper().Trim()))
-            //Veritabanında Aynı Adda (Şu An Update Ettiğimiz Id Dışındakiler Kontrol Ediliyor) Başka Bir Veri Var Mı Kontrolü
             {
-                Error("User with the same name exists! You cannot update with this name!");
+                return Error("User with the same name exists! You cannot update with this name!");
             }
             var entity = _db.Users.SingleOrDefault(s => s.Id == record.Id);
-            //SingleOrDefault methodunu kullanarak Veritabanından; Record Id'si ile Aynı Olan Entity'e Eriştik.
             if (entity == null)
             {
-                //Record, Id ile Bulunamadı. Bu Id'de Veri Yok.
-                Error("User couldn't be found!");
+                return Error("User couldn't be found!");
             }
-            entity.UserName = record.UserName.Trim(); //Oluşturmuş Olduğumuz Entity'nin Name'i, Record'un Name'i ile Değiştirildi.
-            _db.Update(entity); //Veritabanı, Ayno Id'deki, Fakat Güncellenmiş İsimdeki Bu Entity ile Güncellendi.
-            _db.SaveChanges(); //Değişiklikleri Database'e Commit Edildi. 
+            
+            // Update all relevant properties
+            entity.UserName = record.UserName.Trim();
+            entity.Password = record.Password;
+            entity.IsActive = record.IsActive;
+            entity.RoleId = record.RoleId;
+            
+            _db.Update(entity);
+            _db.SaveChanges();
             return Success("User updated successfully!");
         }
     }
