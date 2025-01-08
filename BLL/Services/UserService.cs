@@ -56,7 +56,10 @@ namespace BLL.Services
 
         public IQueryable<UserModel> Query()
         {
-            return _db.Users.OrderBy(p => p.UserName).Select(p => new UserModel() { Record = p });
+            return _db.Users
+                .Include(u => u.Role)
+                .OrderBy(p => p.UserName)
+                .Select(p => new UserModel() { Record = p });
         }
 
         public ServiceBase Update(User record)
