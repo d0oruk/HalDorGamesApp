@@ -5,7 +5,7 @@ This project was created for the .NET Web Application Development course taught 
 <img src="https://www.ctis.bilkent.edu.tr/images/ctis_staff/cagilalsac.jpg" alt="alt text">
 
 ## Phase-1
-<center><img src="https://i.hizliresim.com/gwfn67o.png" alt="alt text"></center>
-<center><img src="https://i.hizliresim.com/rfic94m.png" alt="alt text"></center>
-<center><img src="https://i.hizliresim.com/60qq7ua.png" alt="alt text"></center>
-<center><img src="https://i.hizliresim.com/4sv8b48.png" alt="alt text"></center>
+<center><img src="https://i.hizliresim.com/gwfn67o.png"></center>
+<center><img src="https://i.hizliresim.com/rfic94m.png"></center>
+<center><img src="https://i.hizliresim.com/60qq7ua.png"></center>
+<center><img src="https://i.hizliresim.com/4sv8b48.png""></center>
