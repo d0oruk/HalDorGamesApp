@@ -6,4 +6,4 @@ This course at Atılım University was the only truly useful class we had throug
 
 We hope you encounter and work with people who value your vast knowledge, extraordinary effort, and sincere character even more. From the bottom of our hearts, we thank you for everything.
 
-With love.
+With love and respect ♥
